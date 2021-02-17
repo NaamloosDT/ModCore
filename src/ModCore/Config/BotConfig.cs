@@ -9,5 +9,8 @@ namespace ModCore.Config
     {
         [JsonProperty("defaultprefix")]
         public string DefaultPrefix { get; private set; } = "$$";
+
+        [JsonProperty("defaultlocale")]
+        public string DefaultLocale { get; private set; } = "EN";
     }
 }

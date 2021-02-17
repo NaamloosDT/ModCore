@@ -9,9 +9,9 @@ namespace ModCore.Config
 {
     public static class ConfigLoader
     {
-        public static ConnectionConfig LoadConnectionConfig() => loadConfigFile<ConnectionConfig>("ConnectionConfig.json");
+        public static ConnectionConfig LoadConnectionConfig() => loadConfigFile<ConnectionConfig>(Const.CONNECTION_CONFIG);
 
-        public static BotConfig LoadBotConfig() =>loadConfigFile<BotConfig>("BotConfig.json");
+        public static BotConfig LoadBotConfig() =>loadConfigFile<BotConfig>(Const.BOT_CONFIG);
 
         private static T loadConfigFile<T>(string filename) where T : new()
         {
