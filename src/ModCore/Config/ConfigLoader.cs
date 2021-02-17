@@ -9,21 +9,22 @@ namespace ModCore.Config
 {
     public static class ConfigLoader
     {
-        public static ConnectionConfig LoadConnectionConfig() => JsonConvert.DeserializeObject<ConnectionConfig>(loadConfigFile<ConnectionConfig>("ConnectionConfig.json"));
+        public static ConnectionConfig LoadConnectionConfig() => loadConfigFile<ConnectionConfig>("ConnectionConfig.json");
 
-        public static BotConfig LoadBotConfig() => JsonConvert.DeserializeObject<BotConfig>(loadConfigFile<BotConfig>("ConnectionConfig.json"));
+        public static BotConfig LoadBotConfig() =>loadConfigFile<BotConfig>("BotConfig.json");
 
-        private static string loadConfigFile<T>(string path)
+        private static T loadConfigFile<T>(string filename) where T : new()
         {
+            var path = Path.Combine(Environment.CurrentDirectory, filename);
             if (!File.Exists(path))
             {
                 using (var fs = File.Create(path))
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.Write(JsonConvert.SerializeObject(Activator.CreateInstance<T>()));
+                    sw.Write(JsonConvert.SerializeObject(new T()));
                 }
             }
-            return File.ReadAllText(path);
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
         }
     }
 }

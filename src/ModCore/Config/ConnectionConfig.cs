@@ -8,9 +8,9 @@ namespace ModCore.Config
     public class ConnectionConfig
     {
         [JsonProperty("token")]
-        public string Token { get; } = "";
+        public string Token { get; private set; } = "";
 
         [JsonProperty("shardcount")]
-        public int ShardCount { get; } = 1;
+        public int ShardCount { get; private set; } = 1;
     }
 }

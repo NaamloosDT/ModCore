@@ -8,6 +8,6 @@ namespace ModCore.Config
     public class BotConfig
     {
         [JsonProperty("defaultprefix")]
-        public string DefaultPrefix { get; } = "$$";
+        public string DefaultPrefix { get; private set; } = "$$";
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModCore.Modules
 {
-    public class MainModule
+    public class MainModule : BaseCommandModule
     {
         [Command("ping")]
         public async Task PingAsync(CommandContext ctx)

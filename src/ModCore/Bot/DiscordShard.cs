@@ -4,6 +4,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using Microsoft.Extensions.Logging;
 using ModCore.Config;
+using ModCore.Modules;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,10 +18,14 @@ namespace ModCore.Bot
     public class DiscordShard
     {
         private DiscordClient client;
+        private CommandsNextExtension commands;
         private BotConfig config;
+        private int shardId;
 
         public DiscordShard(int shardCount, int shardId, string token, BotConfig config)
         {
+            this.shardId = shardId;
+            this.config = config;
             client = new DiscordClient(new DiscordConfiguration()
             {
                 ShardCount = shardCount,
@@ -30,15 +35,10 @@ namespace ModCore.Bot
                 AutoReconnect = true,
                 GatewayCompressionLevel = GatewayCompressionLevel.Stream,
 
-                // Use different logging levels for releases and debugging.
-                #if RELEASE
-                MinimumLogLevel = LogLevel.Information,
-                #elif DEBUG
-                MinimumLogLevel = LogLevel.Trace,
-                #endif
+                MinimumLogLevel = LogLevel.Debug // always using debug log level, so I can more quickly resolve issues causes in production.
             });
 
-            client.UseCommandsNext(new CommandsNextConfiguration()
+            commands = client.UseCommandsNext(new CommandsNextConfiguration()
             {
                 EnableDefaultHelp = false,
                 PrefixResolver = resolvePrefix,
@@ -47,6 +47,8 @@ namespace ModCore.Bot
                 EnableDms = false,
                 UseDefaultCommandHandler = true
             });
+
+            commands.RegisterCommands<MainModule>();
         }
 
         public Task<int> resolvePrefix(DiscordMessage msg)
@@ -57,7 +59,7 @@ namespace ModCore.Bot
 
         public async Task ConnectAsync()
         {
-
+            await client.ConnectAsync();
         }
     }
 }

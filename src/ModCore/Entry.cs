@@ -22,6 +22,9 @@ namespace ModCore
             }
 
             var bot = new DiscordBot(connectionConfig, botConfig);
+
+            await bot.StartAsync();
+            await Task.Delay(-1);
         }
     }
 }
